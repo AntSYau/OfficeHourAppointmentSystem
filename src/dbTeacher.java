@@ -39,10 +39,11 @@ public class dbTeacher {
                     }
                 }
             } catch (Exception e) {
+                sqlCommands.errorPrint(e);
                 return -1;
             }
         }
-        return 1;
+            return 1;
     }
 
     int isOccupied(int day, int timeStart, int timeEnd) {
@@ -56,12 +57,17 @@ public class dbTeacher {
                 }
             }
         } catch (Exception e) {
+            sqlCommands.errorPrint(e);
             return -1;
         }
         return 1;
     }
 
     int setRegularOfficeHour(int day, int timeStart, int timeEnd, String address) {
-        return 0;
+        if (isOccupied(day, timeStart, timeEnd) == 0) {
+            return sqlCommands.sqlUpdate("INSERT INTO officehour(teacherid,day,startTime,endTime,address) VALUES (" +
+                    id + "," + day + "," + timeStart + "," + timeEnd + "," + address + ")");
+        }
+        return 1;
     }
 }
