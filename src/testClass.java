@@ -5,7 +5,7 @@ public class testClass {
             dbStudent student = ohasAuth.stuSignIn(21, "QIUSHI");
             System.out.println(student.exist());
         } catch (Exception e) {
-            System.out.println(e.toString());
+            sqlCommands.errorPrint(e);
         }
     }
 }

@@ -21,7 +21,7 @@ public class dbStudent {
             System.out.println("Server failed while identifying this student. Please try again later.");
             return "error";
         } catch (Exception e) {
-            System.out.println("Unknown error has occurred. Please send this message to your administrator:\n\t" + e.toString());
+            sqlCommands.errorPrint(e);
             return "error";
         }
     }

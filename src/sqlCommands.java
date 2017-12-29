@@ -12,11 +12,11 @@ class sqlCommands {
     static int sqlUpdate(String sql) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(url,user,password);
+            Connection conn = DriverManager.getConnection(url, user, password);
             Statement stmt = conn.createStatement();
-            int i = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
             conn.close();
-            return i;
+            return 0;
         } catch (Exception e) {
             e.printStackTrace();
             return -1;
@@ -26,12 +26,22 @@ class sqlCommands {
     static ResultSet sqlQuery(String sql) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(url,user,password);
+            Connection conn = DriverManager.getConnection(url, user, password);
             Statement stmt = conn.createStatement();
             return stmt.executeQuery(sql);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    static void errorPrint(Exception e) {
+        System.out.println("OHAS is having a bad time... Send the following message to your administrator:\n\t" +
+                e.toString());
+    }
+
+    static void errorPrint(Exception e, int code) {
+        System.out.println("OHAS is having a bad time... Send the following message to your administrator:\n\tError " +
+                code + ": " + e.toString());
     }
 }

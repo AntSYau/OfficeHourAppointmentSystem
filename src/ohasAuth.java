@@ -16,7 +16,7 @@ class ohasAuth {
                 sqlCommands.sqlUpdate("INSERT INTO teacher(id) VALUES('" + id + "')"); //possible sql error -1
             }
         } catch (Exception e) {
-            System.out.println(e.toString());
+            sqlCommands.errorPrint(e);
             return -1; // code -1: sql error
         }
         return 0; // code 0: success
@@ -30,10 +30,9 @@ class ohasAuth {
                 return new dbStudent(id);
             }
         } catch (java.lang.NullPointerException e) {
-            System.out.println("Your dbStudent ID or password was incorrect. Please check again.");
+            System.out.println("Your Student ID or password was incorrect. Please check again.");
         } catch (Exception e) {
-            System.out.println("An error has occurred. " +
-                    "Please send this message to your administrator:\n\t" + e.toString());
+            sqlCommands.errorPrint(e);
         }
         return null;
     }
@@ -46,10 +45,9 @@ class ohasAuth {
                 return new dbTeacher(id);
             }
         } catch (java.lang.NullPointerException e) {
-            System.out.println("Your dbTeacher ID or password was incorrect. Please check again.");
+            System.out.println("Your Teacher ID or password was incorrect. Please check again.");
         } catch (Exception e) {
-            System.out.println("Unknown error has occurred. " +
-                    "Please send this message to your administrator:\n\t" + e.toString());
+            sqlCommands.errorPrint(e);
         }
         return null;
     }
