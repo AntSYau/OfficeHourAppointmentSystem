@@ -15,10 +15,7 @@ public class dbStudent {
             rs.next();
             return rs.getString(3);
         } catch (java.lang.NullPointerException e) {
-            System.out.println("We cannot identify this student by dbStudent ID.");
-            return "error";
-        } catch (java.sql.SQLException e) {
-            System.out.println("Server failed while identifying this student. Please try again later.");
+            System.out.println("We cannot identify this student by Student ID.");
             return "error";
         } catch (Exception e) {
             sqlCommands.errorPrint(e);
