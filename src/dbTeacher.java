@@ -1,9 +1,16 @@
+import com.sun.org.apache.xml.internal.dtm.ref.ExpandedNameTable;
+
+import java.security.spec.ECField;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+// TODO: 预约情况按月查看，按时间区间查看，全部查看
+
+//
 
 public class dbTeacher {
     private int id, timeperiod;
@@ -106,13 +113,13 @@ public class dbTeacher {
                 int hour = timeStart / 100;
                 int min = timeStart - (hour * 100);
                 while (hour * 100 + min < timeEnd) {
-                    if (min < 40) {
-                        period.add(new int[]{hour * 100 + min, hour * 100 + min + 20});
-                        min = min + 20;
+                    if (min < 60 - timeperiod) {
+                        period.add(new int[]{hour * 100 + min, hour * 100 + min + timeperiod});
+                        min = min + timeperiod;
                     } else {
-                        period.add(new int[]{hour * 100 + min, (hour + 1) * 100 + min - 40});
+                        period.add(new int[]{hour * 100 + min, (hour + 1) * 100 + timeperiod - 60});
                         hour++;
-                        min = min - 40;
+                        min = min + timeperiod - 60;
                     }
                 }
                 int[] fin = period.get(period.size() - 1);
@@ -146,5 +153,17 @@ public class dbTeacher {
 
     boolean exist() {
         return !(name.equals("error"));
+    }
+
+    int addClass(String classid) {
+        ResultSet query = sqlCommands.sqlQuery("SELECT classid FROM sumClass WHERE classid=" + classid);
+        try {
+            if (query.next()) {
+                return 1;
+            }
+        } catch (Exception e) {
+            sqlCommands.errorPrint(e);
+        }
+        return sqlCommands.sqlUpdate("INSERT INTO sumClass(teacherid,classid) VALUES (" + this.id + "," + classid);
     }
 }
