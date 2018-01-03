@@ -45,7 +45,7 @@ class ohasAuth {
                 return new dbTeacher(id);
             }
         } catch (java.lang.NullPointerException e) {
-            System.out.println("Your Teacher ID or password was incorrect. Please check again.");
+            System.out.println("Your uiTeacher ID or password was incorrect. Please check again.");
         } catch (Exception e) {
             sqlCommands.errorPrint(e);
         }

@@ -143,7 +143,7 @@ public class dbTeacher {
             rs.next();
             return rs.getString("name");
         } catch (java.lang.NullPointerException e) {
-            System.out.println("We cannot identify this teacher by Teacher ID.");
+            System.out.println("We cannot identify this teacher by uiTeacher ID.");
             return "error";
         } catch (Exception e) {
             sqlCommands.errorPrint(e);

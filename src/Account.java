@@ -6,7 +6,7 @@ public class Account {
     private String password;
     private int id;
     private ArrayList<Classes> classes;
-    private Login.Identity identity;
+    private uiLogin.Identity identity;
     private Account user = new Account();
     private static int Rulebreak;
     private static int monthlyTime;
@@ -21,15 +21,15 @@ public class Account {
     }
 
     public boolean ifOutOfMChance() {
-        return monthlychance >= student.getMonthChance();
+        return monthlychance >= uiStudent.getMonthChance();
     }
 
     public boolean ifOutOfRBChance() {
-        return Rulebreak >= student.getRBC();
+        return Rulebreak >= uiStudent.getRBC();
     }
 
     public boolean ifOutOfTTime() {
-        return monthlyTime >= student.getTotalTime();
+        return monthlyTime >= uiStudent.getTotalTime();
     }
 
     private enum Identity {
@@ -57,12 +57,12 @@ public class Account {
     public Account() {
         String username;
         String password;
-        int id = Login.EnteredID;
+        int id = uiLogin.EnteredID;
         ArrayList<Classes> Classes;
         Identity identity;
     }
 
-    public Account(String username, String password, int id, Login.Identity tempIdentity) {
+    public Account(String username, String password, int id, uiLogin.Identity tempIdentity) {
         this.username = username;
         this.password = password;
         this.id = id;
@@ -71,10 +71,10 @@ public class Account {
     }
 
     public void setAccount() {
-        user.username = Login.user1.getUsername();
-        user.password = Login.user1.getPassword();
-        user.id = Login.EnteredID;
-        user.classes = Login.user1.getClasses();
+        user.username = uiLogin.user1.getUsername();
+        user.password = uiLogin.user1.getPassword();
+        user.id = uiLogin.EnteredID;
+        user.classes = uiLogin.user1.getClasses();
         user.identity = getIdentity();
     }
 
@@ -99,9 +99,9 @@ public class Account {
         return new dbStudent(this.id).getName();
     }
 
-    public static Login.Identity getIdentity() {
+    public static uiLogin.Identity getIdentity() {
         //数据库获取账户类型
-        return Login.Identity.STUDENT;
+        return uiLogin.Identity.STUDENT;
     }
 
     public int getId() {
@@ -125,7 +125,7 @@ public class Account {
         this.id = str;
     }
 
-    public void setIdentity(Login.Identity a) {
+    public void setIdentity(uiLogin.Identity a) {
         this.identity = a;
     }
 }

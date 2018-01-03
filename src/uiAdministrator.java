@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Administrator {
+public class uiAdministrator {
     public static Scanner scanner = new Scanner(System.in);
 	public static Account user2 = new Account();
 	private int dayLimit;
@@ -9,7 +9,7 @@ public class Administrator {
 	}
 	
 	public static void MainMenu() {
-    	System.out.println("Hello, "+Login.user1.getUsername()+"What service would you like to apply?");
+    	System.out.println("Hello, "+ uiLogin.user1.getUsername()+"What service would you like to apply?");
     	System.out.println("1. Personal Information");
     	System.out.println("2. Account Setting");
     	System.out.println("3. Set Reservation Day Limit");
@@ -19,22 +19,22 @@ public class Administrator {
     	System.out.println("0. Exit");
     	switch(scanner .nextInt()) {
     	case 1: 
-    		Administrator.PersonalInfo();
+    		uiAdministrator.PersonalInfo();
     		break;
     	case 2: 
-    		Administrator.AccountMenu();
+    		uiAdministrator.AccountMenu();
     		break;
     	case 3: 
-    		Administrator.setDayLimit();
+    		uiAdministrator.setDayLimit();
     		break;
     	case 4:
-    		Administrator.setTryChances();
+    		uiAdministrator.setTryChances();
     		break;
     	case 5:
-    		Administrator.setRuleBreakChance();
+    		uiAdministrator.setRuleBreakChance();
     		break;	
     	case 6:
-    		Administrator.ClearRuleBreakChanceAll();
+    		uiAdministrator.ClearRuleBreakChanceAll();
     		break;
     	default:
             //exit
@@ -45,41 +45,41 @@ public class Administrator {
 	//*************************����*********************************
 	
 	public static void setUsername() {
-    	System.out.println("Your current Username:"+Login.user1.getUsername());
+    	System.out.println("Your current Username:"+ uiLogin.user1.getUsername());
     	System.out.println("Do you want to change it? Y/N");
-    	String a = Login.sc.nextLine();
+    	String a = uiLogin.sc.nextLine();
     	if (a == "Y") {
     		System.out.println("Please enter the new account name:");
-    		String str = Login.sc.nextLine();
-    		Login.user1.setUsername(str);
+    		String str = uiLogin.sc.nextLine();
+    		uiLogin.user1.setUsername(str);
     		//database  ����user1 ���û���
     	}else {
-    		Administrator.MainMenu();
+    		uiAdministrator.MainMenu();
         }
     }
     
 	public static void setPassword() {
     	System.out.println("Your current password:"+Account.getPassword());
     	System.out.println("Do you want to change it? Y/N");
-    	String a = Login.sc.nextLine();
+    	String a = uiLogin.sc.nextLine();
     	if (a == "Y") {
     		System.out.println("Please enter the new password:");
-    		String str = Login.sc.nextLine();
-    		Login.user1.setPassword(str);
+    		String str = uiLogin.sc.nextLine();
+    		uiLogin.user1.setPassword(str);
     		//database  ����user1 ������
     	}else {
     		System.out.println("***********Changes discarded***********");
     		scanner.nextLine();
-    		Administrator.MainMenu();
+    		uiAdministrator.MainMenu();
         }
     }
     
     public static void PersonalInfo() {
 		System.out.println("Your personal account Infomstion");
-		System.out.println("Username:"+Login.user1.getUsername());
-		System.out.println("ID      :"+Login.EnteredID);
-		System.out.println("Password:"+Login.user1.getPassword());
-		System.out.println("Classes:"+Login.user1.getClasses());//�༶�б�����������
+		System.out.println("Username:"+ uiLogin.user1.getUsername());
+		System.out.println("ID      :"+ uiLogin.EnteredID);
+		System.out.println("Password:"+ uiLogin.user1.getPassword());
+		System.out.println("Classes:"+ uiLogin.user1.getClasses());//�༶�б�����������
 		System.out.println("What to do next? ");
 		System.out.println("1. Change Username");
 		System.out.println("2. Change Password");
@@ -88,13 +88,13 @@ public class Administrator {
 		int a = scanner.nextInt();
 		switch(a){
 			case 1: 
-				Administrator.setUsername();
+				uiAdministrator.setUsername();
 				break;
 			case 2:
-				Administrator.setPassword();
+				uiAdministrator.setPassword();
 				break;
 			default: 
-				Administrator.MainMenu();
+				uiAdministrator.MainMenu();
 				break;
 		}
 	}
@@ -108,7 +108,7 @@ public class Administrator {
 		System.out.println("Please enter Id:");
 		user.setId(scanner.nextInt());
 		System.out.println("Please enter Identity");
-		user.setIdentity(Login.Identity.getIdentity(scanner.nextInt()));
+		user.setIdentity(uiLogin.Identity.getIdentity(scanner.nextInt()));
         //System.out.println("Please enter Classes");
 		//user.setClasses(scanner.nextLine());	
 		System.out.println("Account Infomstion");
@@ -125,11 +125,11 @@ public class Administrator {
 			//database ����Account����������
 			System.out.println("Successful");
 			scanner.nextLine();
-			Administrator.AccountMenu();
+			uiAdministrator.AccountMenu();
 		}else {
 			System.out.println("Canceled");
 			scanner.nextLine();
-			Administrator.AccountMenu();
+			uiAdministrator.AccountMenu();
 		}
     }
     public static Account getAccount(int id) {
@@ -141,7 +141,7 @@ public class Administrator {
     public static void deleteAccount() {
 		System.out.println("Please enter ID:");
 		int a = scanner.nextInt();
-		Administrator.getAccount(a);
+		uiAdministrator.getAccount(a);
 		System.out.println("Account Infomstion");
 		System.out.println("Username:"+user2.getUsername());
 		System.out.println("ID      :"+a);
@@ -150,29 +150,29 @@ public class Administrator {
 		System.out.println("Identity:"+ Account.getIdentity());
 		System.out.println("Do you confirm to delete this Account? Y/N");
 		if (scanner.nextLine() == "Y") {
-			if(Account.getIdentity()!= Login.Identity.ADMINISTRATOR) {
+			if(Account.getIdentity()!= uiLogin.Identity.ADMINISTRATOR) {
 				System.out.println("Please confirm your password.");
-				if (scanner.nextLine() == Login.getTempPassword()) {
+				if (scanner.nextLine() == uiLogin.getTempPassword()) {
 					//delete Account
 					System.out.println("Deleted.");
-					Administrator.deleteAccount();
+					uiAdministrator.deleteAccount();
 				}else {
 					System.out.println("Wrong Password!");
-					Administrator.deleteAccount();
+					uiAdministrator.deleteAccount();
 				}
 			}else {
 				System.out.println("You can't delete an administrator!");
-				Administrator.deleteAccount();
+				uiAdministrator.deleteAccount();
 			}
 			
 		}else {
-			Administrator.deleteAccount();
+			uiAdministrator.deleteAccount();
 		}
 	}
     public static void setAccount() {
     	System.out.println("Please enter ID:");
 		int a = scanner.nextInt();
-		Administrator.getAccount(a);
+		uiAdministrator.getAccount(a);
 		System.out.println("Account Infomstion");
 		System.out.println("Username:"+user2.getUsername());
 		System.out.println("ID      :"+a);
@@ -193,9 +193,9 @@ public class Administrator {
 			//database  ���ĸ��û�������
 			System.out.println("Operation Completed. Continue? 1. Yes 0. No");
 			if(scanner.nextInt() == 1) {
-				Administrator.setAccount();
+				uiAdministrator.setAccount();
 			}else {
-			    Administrator.MainMenu();	
+			    uiAdministrator.MainMenu();
 			}
 			break;
 		case 2:
@@ -205,9 +205,9 @@ public class Administrator {
 			//database  ���ĸ��û�������
 			System.out.println("Operation Completed. Continue? 1. Yes 0. No");
 			if(scanner.nextInt() == 1) {
-				Administrator.setAccount();
+				uiAdministrator.setAccount();
 			}else {
-			    Administrator.MainMenu();	
+			    uiAdministrator.MainMenu();
 			}
 			break;
 		case 3:
@@ -217,9 +217,9 @@ public class Administrator {
 			//database   ���ĸ��û���id
 			System.out.println("Operation Completed. Continue? 1. Yes 0. No");
 			if(scanner.nextInt() == 1) {
-				Administrator.setAccount();
+				uiAdministrator.setAccount();
 			}else {
-			    Administrator.MainMenu();	
+			    uiAdministrator.MainMenu();
 			}
 			break;
 		//case 4:
@@ -230,28 +230,28 @@ public class Administrator {
 			//database
 			System.out.println("Operation Completed. Continue? 1. Yes 0. No");
 			if(scanner.nextInt() == 1) {
-				Administrator.setAccount();
+				uiAdministrator.setAccount();
 			}else {
-			    Administrator.MainMenu();	
+			    uiAdministrator.MainMenu();
 			}*/
-			//Administrator.MainMenu();
+			//uiAdministrator.MainMenu();
 			//break;
 		case 4:
 			System.out.println("Please enter the new Identity");
-			System.out.println("[1] Teacher");
+			System.out.println("[1] uiTeacher");
 			System.out.println("[2] Student");
 			int Int2 = scanner.nextInt();
-			user2.setIdentity(Login.Identity.getIdentity(Int2));
+			user2.setIdentity(uiLogin.Identity.getIdentity(Int2));
 			//database  �޸ĸ��˻������
 			System.out.println("Operation Completed. Continue? 1. Yes 0. No");
 			if(scanner.nextInt() == 1) {
-				Administrator.setAccount();
+				uiAdministrator.setAccount();
 			}else {
-			    Administrator.MainMenu();	
+			    uiAdministrator.MainMenu();
 			}
 			break;
 		default:
-			Administrator.MainMenu();
+			uiAdministrator.MainMenu();
 			break;
 		}
     }
@@ -264,21 +264,21 @@ public class Administrator {
 		System.out.println("0. exit");
 		switch(scanner.nextInt()) {
 		case 1 :
-			Administrator.setAccount();
+			uiAdministrator.setAccount();
 			break;
 		case 2 :
-			Administrator.addAccount();
+			uiAdministrator.addAccount();
 		    break;
 		case 3 : 
-			Administrator.deleteAccount();
+			uiAdministrator.deleteAccount();
 			break;
 		default:
-			Administrator.MainMenu();
+			uiAdministrator.MainMenu();
 		}
     }
 //********************************* account ******************************
     public static void setDayLimit() {
-    	Administrator administrator = new Administrator();
+    	uiAdministrator administrator = new uiAdministrator();
     	System.out.println("Current day limit:"+administrator.getDayLimit());
     	System.out.println("Do you want to change Day Limit?");
     	System.out.println("1. Yes");
@@ -291,15 +291,15 @@ public class Administrator {
     		}else {
     			System.out.println("Invalid integer!");
     			scanner.nextLine();
-    			Administrator.setDayLimit();
+    			uiAdministrator.setDayLimit();
     		} 
     	}else {
-			Administrator.MainMenu();
+			uiAdministrator.MainMenu();
 		}
     }
   //********************************* dayLimit ******************************  
     public static void setTryChances() {
-    	System.out.println("Current day limit:"+Login.getTryChances());
+    	System.out.println("Current day limit:"+ uiLogin.getTryChances());
     	System.out.println("Do you want to change Try Chances?");
     	System.out.println("1. Yes");
     	System.out.println("0. No");
@@ -307,34 +307,34 @@ public class Administrator {
     		System.out.println("Please enter the number of the attempts (3~10):");
     		int a = scanner.nextInt();
     		if (a<=10&&a>=3) {
-    			Login.setTryChances();	
+    			uiLogin.setTryChances();
     			System.out.println("Operation complete.");
     			scanner.nextLine();
-    			Administrator.setTryChances();	
+    			uiAdministrator.setTryChances();
     		}else {
     			System.out.println("Invalid integer!");
     			scanner.nextLine();
-    			Administrator.setTryChances();
+    			uiAdministrator.setTryChances();
     		} 
     	}else {
-			Administrator.MainMenu();
+			uiAdministrator.MainMenu();
 		}
     }
   //********************************* TryChances****************************** 
     public static void setRuleBreakChance() {
     	System.out.println("Please input the ID of the Student:");
-    	Account s1=Teacher.getStudent(scanner.nextInt());
-    	System.out.println("Please input the times that rule broken by this student:");
+    	Account s1= uiTeacher.getStudent(scanner.nextInt());
+    	System.out.println("Please input the times that rule broken by this Student:");
     	Account.setRuleBreakChance(scanner.nextInt());
     	//database  break �ı�
     	System.out.println("Successful");
     	scanner.nextLine();
-    	Administrator.MainMenu();
+    	uiAdministrator.MainMenu();
     }
     public static void ClearRuleBreakChanceAll() {
     	//���ݿ���������break��Ϊ0
     	System.out.println("Successful");
     	scanner.nextLine();
-    	Administrator.MainMenu();
+    	uiAdministrator.MainMenu();
     }
 }

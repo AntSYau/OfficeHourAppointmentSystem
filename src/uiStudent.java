@@ -1,28 +1,25 @@
-import sun.rmi.runtime.Log;
-
-import java.nio.channels.ScatteringByteChannel;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Scanner;
 
-public class student {
+public class uiStudent {
 
     dbStudent operation;
 
-    student(dbStudent operation) {
+    uiStudent(dbStudent operation) {
         this.operation = operation;
     }
 
     public static Scanner scanner = new Scanner(System.in);
 
     public static void setUsername() {
-        System.out.println("Your current Username:" + Login.user1.getUsername());
+        System.out.println("Your current Username:" + uiLogin.user1.getUsername());
         System.out.println("Do you want to change it? Y/N");
-        String a = Login.sc.nextLine();
+        String a = uiLogin.sc.nextLine();
         if (a == "Y") {
             System.out.println("Please enter the new account name:");
-            String str = Login.sc.nextLine();
-            Login.user1.setUsername(str);// str ��ֵ��account�е��û�����
+            String str = uiLogin.sc.nextLine();
+            uiLogin.user1.setUsername(str);// str ��ֵ��account�е��û�����
             //database ����user1 ���û���
         } else {
             //�ص�������
@@ -36,20 +33,20 @@ public class student {
         if (a == 1) {
             System.out.println("Please enter the new password:");
             String str = scanner.nextLine();
-            Login.user1.setPassword(str);// str ��ֵ��account �е�������
+            uiLogin.user1.setPassword(str);// str ��ֵ��account �е�������
             //database ����user1 ������
         } else {
-            student.PersonalInfo();//�ص�������
+            uiStudent.PersonalInfo();//�ص�������
         }
     }
 
     public static void PersonalInfo() {
         System.out.println("Your personal account Infomstion");
-        System.out.println("Username:" + Login.user1.getUsername());
-        System.out.println("ID      :" + Login.EnteredID);
-        System.out.println("Password:" + Login.user1.getPassword());
+        System.out.println("Username:" + uiLogin.user1.getUsername());
+        System.out.println("ID      :" + uiLogin.EnteredID);
+        System.out.println("Password:" + uiLogin.user1.getPassword());
         System.out.println("Classes:");
-        Login.user1.getClasses().toString();
+        uiLogin.user1.getClasses().toString();
         System.out.println("What to do next? ");
         System.out.println("1. Change Username");
         System.out.println("2. Change Password");
@@ -58,13 +55,13 @@ public class student {
         int a = scanner.nextInt();
         switch (a) {
             case 1:
-                student.setUsername();
+                uiStudent.setUsername();
                 break;
             case 2:
-                student.setPassword();
+                uiStudent.setPassword();
                 break;
             default:
-                student.MainMenu();
+                uiStudent.MainMenu();
                 break;
         }
     }
@@ -85,10 +82,10 @@ public class student {
 
             switch (a) {
                 case 1:
-                    key = student.Reserve();
+                    key = uiStudent.Reserve();
                     break;
                 case 2:
-                    key = student.CancelReservation();
+                    key = uiStudent.CancelReservation();
                     break;
                 default:
                     return 0;
@@ -129,8 +126,8 @@ public class student {
         } else {
             chosenClass=classlist.get(a-1);
         }
-        System.out.println("Please choose a Teacher:     ");
-        System.out.println("(Teacher# : select teacher. \"0\": cancel.)");
+        System.out.println("Please choose a uiTeacher:     ");
+        System.out.println("(uiTeacher# : select teacher. \"0\": cancel.)");
         ArrayList<Integer> TeacherList = chosenClass.getTeachers();
         //��Ӹÿγ̵���ʦ��list�б�
         for (int i = 1; i <= TeacherList.size(); i++) {
@@ -138,7 +135,7 @@ public class student {
         }
         int b = scanner.nextInt();
         if (b == 0) {
-            student.MainMenu();
+            uiStudent.MainMenu();
         } else {
             for (int i = 1; i <= TeacherList.size(); i++) {
                 if (i == b) {
@@ -183,14 +180,14 @@ public class student {
     public static void MainMenu() {
         int key = 0;
         while (key == 0) {
-            System.out.println("Hello, " + Login.user1.getUsername() + "What service would you like to apply?");
+            System.out.println("Hello, " + uiLogin.user1.getUsername() + "What service would you like to apply?");
             System.out.println("1. Personal Information");
             System.out.println("2. Reservation");
             System.out.println("0. Exit");
             if (scanner.nextInt() == 1) {
-                student.PersonalInfo();
+                uiStudent.PersonalInfo();
             } else if (scanner.nextInt() == 2) {
-                key = student.CheckReservtion();
+                key = uiStudent.CheckReservtion();
             } else {
                 key = 1;
             }

@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Login {
+public class uiLogin {
     public static int EnteredID;
     public static String EnteredPassword;
     public static int[] DataBaseAccount = new int[100];//temp,database模拟
@@ -40,44 +40,44 @@ public class Login {
     public static Scanner sc = new Scanner(System.in);
 
     public static int getTryChances() {
-        return Login.tryChances;
+        return uiLogin.tryChances;
     }
 
     public static void setTryChances() {
         if (Account.getIdentity() == Identity.ADMINISTRATOR) {//管理员权限******************************************
             System.out.println("Please Enter The Number of Acceptable Attemps:");
-            Login.tryChances = sc.nextInt();
+            uiLogin.tryChances = sc.nextInt();
         }
     }
 
     public int getTempId() {
-        return Login.tempId;
+        return uiLogin.tempId;
     }
 
     public static String getTempPassword() {
-        return Login.tempPassword;
+        return uiLogin.tempPassword;
     }
 
     public boolean getLogninTrue() {
-        return Login.LoginTrue;
+        return uiLogin.LoginTrue;
     }
 
     public boolean getAccountExist() {
-        return Login.AccountExist;
+        return uiLogin.AccountExist;
     }
 
     public static void setLoginTrue(boolean a) {
-        Login.LoginTrue = a;
+        uiLogin.LoginTrue = a;
     }
 
     public static void setAccountExist(boolean a) {
-        Login.AccountExist = a;
+        uiLogin.AccountExist = a;
     }
 
     public static void searchForAccount() {
         for (int i = 0;/*遍历数据库account栏目*/ ; ) {
             if (EnteredID == DataBaseAccount[i]) {
-                Login.setAccountExist(true);
+                uiLogin.setAccountExist(true);
                 user1 = new Account("get name", tempPassword, EnteredID, tempIdentity);//getName
                 tempPassword = Account.getPassword();
                 tempIdentity = Account.getIdentity();
@@ -91,17 +91,17 @@ public class Login {
 
     public static void checkPassword() {
         if (EnteredPassword == tempPassword) {
-            Login.setLoginTrue(true);
-            System.out.println("Login Succeeded. Welcome," + EnteredID);
+            uiLogin.setLoginTrue(true);
+            System.out.println("uiLogin Succeeded. Welcome," + EnteredID);
             switch (Account.getIdentity()) {
                 case STUDENT:
-                    student.MainMenu();
+                    uiStudent.MainMenu();
                     break;
                 case TEACHER:
-                    Teacher.MainMenu();
+                    uiTeacher.MainMenu();
                     break;
                 case ADMINISTRATOR:
-                    Administrator.MainMenu();
+                    uiAdministrator.MainMenu();
                     break;
             }
         } else {
@@ -111,10 +111,10 @@ public class Login {
     }
 
     public static void LoginMain() {
-        Login login1 = new Login();
-        Login.tries = Login.tryChances;
+        uiLogin login1 = new uiLogin();
+        uiLogin.tries = uiLogin.tryChances;
         System.out.println("Welcome to use SUSTech Office Hour Appointment System. ");
-        while (Login.tries > 0) {
+        while (uiLogin.tries > 0) {
             System.out.println("ID: ");
             EnteredID = sc.nextInt();
             System.out.println("Password: ");
@@ -127,7 +127,7 @@ public class Login {
             }
 
         }
-        if (Login.tries == 0) {
+        if (uiLogin.tries == 0) {
             System.out.println("Sorry, you are out of attempts. Try 10 minutes later.");//timer  时间设置
             login1.timeControl();
         }
@@ -140,7 +140,7 @@ public class Login {
                 int time = 600;
                 time--;
                 if (time < 0) {
-                    Login.tries = Login.tryChances;
+                    uiLogin.tries = uiLogin.tryChances;
                 }
             }
         }, 0, 1000);
@@ -151,7 +151,7 @@ public class Login {
     }
 
     public void setUser1(Account user1) {
-        Login.user1 = user1;
+        uiLogin.user1 = user1;
     }
 
     public void setTempPassword() {

@@ -22,7 +22,7 @@ public class dbStudent {
             rs.next();
             return rs.getString(3);
         } catch (java.lang.NullPointerException e) {
-            System.out.println("We cannot identify this student by Student ID.");
+            System.out.println("We cannot identify this uiStudent by Student ID.");
             return "error";
         } catch (Exception e) {
             sqlCommands.errorPrint(e);

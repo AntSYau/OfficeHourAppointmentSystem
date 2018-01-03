@@ -73,14 +73,14 @@ public class Reservation {
 		  this.address= str;
 	}
 	public void  setTeacher(int id) {
-		  Account str = Teacher.getTeacher(id);
+		  Account str = uiTeacher.getTeacher(id);
 		  this.teacher= str;
 	}
 	public void  setTeacher(Account str) {
 		  this.teacher= str;
 	}
 	public void  setStudent(int id) {
-		Account str = Teacher.getStudent(id);
+		Account str = uiTeacher.getStudent(id);
 		  this.student= str;
 	}
 	public void  setTeacherId(int str) {
@@ -95,11 +95,11 @@ public class Reservation {
 	
 	public static ArrayList<Reservation> getReservationList() {
 		ArrayList<Reservation> ReservationList = new ArrayList<>(); 
-		if (Account.getIdentity() == Login.Identity.TEACHER) {
+		if (Account.getIdentity() == uiLogin.Identity.TEACHER) {
 			Reservation r1 = new Reservation();//temp
 			//数据库调用TeacherName为Account.Name的 所有预约
 			ReservationList.add(r1);//temp
-		}else if (Account.getIdentity() == Login.Identity.STUDENT) {
+		}else if (Account.getIdentity() == uiLogin.Identity.STUDENT) {
 			Reservation r1 = new Reservation();//temp
 			//数据库调用Name为Account.Name的 所有预约
 			ReservationList.add(r1);
@@ -122,7 +122,7 @@ public class Reservation {
 		System.out.print("Date:"+ this.getDate());
 		System.out.println("\tTime:"+ this.getTime());
 		System.out.println("Address:"+ this.getAddress());
-		System.out.print("Teacher:"+ this.getTeacher());
+		System.out.print("uiTeacher:"+ this.getTeacher());
 		System.out.println("\tStudent:"+ this.getStudent());
 		System.out.println("Student ID:"+ this.getStudentId());
 		return null;

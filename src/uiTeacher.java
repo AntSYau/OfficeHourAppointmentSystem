@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Teacher {
+public class uiTeacher {
 	public static Scanner scanner = new Scanner(System.in);
 	private int rulebreakchance;
 	public int getRBC() {
@@ -11,20 +11,20 @@ public class Teacher {
 		this.rulebreakchance = a;
 	}
 	public static void MainMenu() {
-    	System.out.println("Hello, "+Login.user1.getUsername()+"What service would you like to apply?");
+    	System.out.println("Hello, "+ uiLogin.user1.getUsername()+"What service would you like to apply?");
     	System.out.println("1. Personal Information");
     	System.out.println("2. Reservation");
     	System.out.println("3. Set Reservation Rules");
     	System.out.println("4. Set Classes and Rules");
     	System.out.println("0. Exit");
     	if (scanner .nextInt() == 1) {
-    		Teacher.PersonalInfo();
+    		uiTeacher.PersonalInfo();
     	}else if (scanner .nextInt() == 2) {
-    		Teacher.CheckReservtion();
+    		uiTeacher.CheckReservtion();
     	}else if (scanner .nextInt() == 3) {
-    		Teacher.setReservationRules();
+    		uiTeacher.setReservationRules();
     	}else if(scanner .nextInt() == 4) {
-    		Teacher.setTeaching();
+    		uiTeacher.setTeaching();
     	}else {
     		//exit
     	}
@@ -38,16 +38,16 @@ public class Teacher {
 		System.out.println("0. exit");
 		switch (scanner.nextInt()) {
 		case 1:
-			Teacher.setOfficeHour();
+			uiTeacher.setOfficeHour();
 			break;
         case 2:
-			Teacher.setWorkDays();
+			uiTeacher.setWorkDays();
 			break;
         case 3:
-	       Teacher.setReserInTime();
+	       uiTeacher.setReserInTime();
 	        break;
 		default:
-			Teacher.MainMenu();
+			uiTeacher.MainMenu();
 			break;
 		}
 	}
@@ -58,7 +58,7 @@ public class Teacher {
 		//******************************************
 		System.out.println("Successful.");
 		scanner.nextLine();
-		Teacher.setReservationRules();
+		uiTeacher.setReservationRules();
 	}
 	public static void setReserInTime() {
 		//����ԤԼ����ʱ����*****************************************
@@ -66,40 +66,40 @@ public class Teacher {
 	//*************************����*********************************
 	
 	public static void setUsername() {
-    	System.out.println("Your current Username:"+Login.user1.getUsername());
+    	System.out.println("Your current Username:"+ uiLogin.user1.getUsername());
     	System.out.println("Do you want to change it? Y/N");
-    	String a = Login.sc.nextLine();
+    	String a = uiLogin.sc.nextLine();
     	if (a == "Y") {
     		System.out.println("Please enter the new account name:");
-    		String str = Login.sc.nextLine();
-    		Login.user1.setUsername(str);// str ��ֵ��account�е��û�����
+    		String str = uiLogin.sc.nextLine();
+    		uiLogin.user1.setUsername(str);// str ��ֵ��account�е��û�����
     		//database 
     	}else {
-    		Teacher.MainMenu();
+    		uiTeacher.MainMenu();
         }
     }
     
 	public static void setPassword() {
     	System.out.println("Your current password:"+Account.getPassword());
     	System.out.println("Do you want to change it? Y/N");
-    	String a = Login.sc.nextLine();
+    	String a = uiLogin.sc.nextLine();
     	if (a == "Y") {
     		System.out.println("Please enter the new password:");
-    		String str = Login.sc.nextLine();
-    		Login.user1.setPassword(str);
+    		String str = uiLogin.sc.nextLine();
+    		uiLogin.user1.setPassword(str);
     		//database  ����user1 �Ķ�Ӧ����
     	}else {
     		System.out.println("***********Changes discarded***********");
-    		Teacher.MainMenu();
+    		uiTeacher.MainMenu();
         }
     }
     
     public static void PersonalInfo() {
 		System.out.println("Your personal account Infomstion");
-		System.out.println("Username:"+Login.user1.getUsername());
-		System.out.println("ID      :"+Login.EnteredID);
-		System.out.println("Password:"+Login.user1.getPassword());
-		System.out.println("Classes:"+Login.user1.getClasses());
+		System.out.println("Username:"+ uiLogin.user1.getUsername());
+		System.out.println("ID      :"+ uiLogin.EnteredID);
+		System.out.println("Password:"+ uiLogin.user1.getPassword());
+		System.out.println("Classes:"+ uiLogin.user1.getClasses());
 		System.out.println("What to do next? ");
 		System.out.println("1. Change Username");
 		System.out.println("2. Change Password");
@@ -108,13 +108,13 @@ public class Teacher {
 		int a = scanner.nextInt();
 		switch(a){
 			case 1: 
-				Teacher.setUsername();
+				uiTeacher.setUsername();
 				break;
 			case 2:
-				Teacher.setPassword();
+				uiTeacher.setPassword();
 				break;
 			default: 
-				Teacher.MainMenu();
+				uiTeacher.MainMenu();
 				break;
 		}
 	}
@@ -131,12 +131,12 @@ public class Teacher {
 		int a = scanner.nextInt();
 		switch(a){
 			case 1: 
-				Teacher.cancleReservation();
+				uiTeacher.cancleReservation();
 				break;
 			case 2:
-				Teacher.setReservation();
+				uiTeacher.setReservation();
 			default: 
-				Teacher.MainMenu();
+				uiTeacher.MainMenu();
 				break;
 		}
 	}
@@ -151,9 +151,9 @@ public class Teacher {
 		//��Ӧɾ��database�е�ԤԼ
 		list.remove(a-1);
 		System.out.println("Removed successfully.");
-		Teacher.CheckReservtion();
+		uiTeacher.CheckReservtion();
 		}else {
-			Teacher.CheckReservtion();
+			uiTeacher.CheckReservtion();
 		}
     }
     public static void setReservation() {
@@ -166,7 +166,7 @@ public class Teacher {
     			System.out.println("1. Date");
     			System.out.println("2. Time");
     			System.out.println("3. Address");
-    			System.out.println("4. Teacher");
+    			System.out.println("4. uiTeacher");
     			System.out.println("5. presence");
     			System.out.println("0. exit");
     			switch (scanner.nextInt()) {
@@ -178,7 +178,7 @@ public class Teacher {
 					//database  ��������
 					System.out.println("Successful.");
 					scanner.nextLine();
-					Teacher.CheckReservtion();
+					uiTeacher.CheckReservtion();
 					break;
 				case 2:
 					System.out.println("Please input the time you want to apply");
@@ -187,7 +187,7 @@ public class Teacher {
 					//database  ʱ������
 					System.out.println("Successful.");
 					scanner.nextLine();
-					Teacher.CheckReservtion();
+					uiTeacher.CheckReservtion();
 					break;
 					
 				case 3:
@@ -197,7 +197,7 @@ public class Teacher {
 					//database  �ص�����
 					System.out.println("Successful.");
 					scanner.nextLine();
-					Teacher.CheckReservtion();
+					uiTeacher.CheckReservtion();
 					break;
 				case 4:
 					System.out.println("Please input the id of the teacher you want to switch to");
@@ -206,19 +206,19 @@ public class Teacher {
 					//database  ��ʦ����
 					System.out.println("Successful.");
 					scanner.nextLine();
-					Teacher.CheckReservtion();
+					uiTeacher.CheckReservtion();
 				case 5: 
-					System.out.println("Please input the presence of the student    1. good 0. bad");
+					System.out.println("Please input the presence of the uiStudent    1. good 0. bad");
 					a = scanner.nextInt();
 					if (a ==0 ) {
 						Account.breakRule();
 						r1.setPresence(false);
 					}
-					System.out.println("Successful.The presence of the student is" + r1.getPresence());
-					Teacher.setReservation();
+					System.out.println("Successful.The presence of the uiStudent is" + r1.getPresence());
+					uiTeacher.setReservation();
 					break;
 				default:
-					Teacher.CheckReservtion();
+					uiTeacher.CheckReservtion();
 					break;
 				}
     		}
@@ -236,13 +236,13 @@ public class Teacher {
 		int a = scanner.nextInt();
 		switch(a){
 			case 1: 
-				Teacher.ClassMenu();
+				uiTeacher.ClassMenu();
 				break;
 			case 2:
-				Teacher.setRule();
+				uiTeacher.setRule();
 				break;
 			default: 
-				Teacher.MainMenu();
+				uiTeacher.MainMenu();
 				break;
 		}
     }
@@ -256,21 +256,21 @@ public class Teacher {
 		int a = scanner.nextInt();
 		switch(a){
 			case 1: 
-				Teacher.addNewClass();
+				uiTeacher.addNewClass();
 				break;
 			case 2:
-				Teacher.checkClass();
+				uiTeacher.checkClass();
 				break;
 			default: 
-				Teacher.MainMenu();
+				uiTeacher.MainMenu();
 				break;
 		}
     }
     
     public static void checkClass() {
-		int a = Login.user1.getClasses().size();
+		int a = uiLogin.user1.getClasses().size();
 		for (int i=0;i<a;i++) {
-			Login.user1.getClasses().get(i).toString();	
+			uiLogin.user1.getClasses().get(i).toString();
 		}
     	System.out.println("What would you like to do? ");
     	System.out.println("1. set Class");
@@ -278,13 +278,13 @@ public class Teacher {
     	System.out.println("0. exit");
     	switch (scanner.nextInt()) {
 		case 1:
-			Teacher.setClasses();
+			uiTeacher.setClasses();
 			break;
 		case 2:
-			Teacher.deleteClass();
+			uiTeacher.deleteClass();
 			break;
 		default:
-			Teacher.ClassMenu();
+			uiTeacher.ClassMenu();
 			break;
 		}
 	}
@@ -297,10 +297,10 @@ public class Teacher {
     public static void setClasses() {
     	System.out.println("Please enter Class Number:");
     	int a = scanner.nextInt();
-		Classes classes =Teacher.getClasses(a);
+		Classes classes = uiTeacher.getClasses(a);
 		System.out.println("Please choose your operation");
 		System.out.println("1. set Class Name");
-		System.out.println("2. set Class Teacher");
+		System.out.println("2. set Class uiTeacher");
 		System.out.println("3. set Class Students");
 		System.out.println("0. exit");
     	switch (scanner.nextInt()) {
@@ -309,7 +309,7 @@ public class Teacher {
 			//database
 			System.out.println("Successful");
 			scanner.nextLine();
-			Teacher.setClasses();
+			uiTeacher.setClasses();
 			break;
 		case 2:
 			classes.getTeachersSimple();
@@ -329,11 +329,11 @@ public class Teacher {
 				System.out.println("Successful.Continue?  1. Yes  2.No");
 				a=scanner.nextInt();
 				}while(a==1);
-				Teacher.setClasses();
+				uiTeacher.setClasses();
 				break;
 			case 2:
 				do {
-					System.out.println("Please enter Teacher's ID");
+					System.out.println("Please enter uiTeacher's ID");
 					a = scanner.nextInt();
 					Account t1 = getTeacher(a);
 					System.out.println("Name"+getTeacher(a).getUsername());
@@ -351,10 +351,10 @@ public class Teacher {
 					System.out.println("Continue? 1.Yes 2.No");
 					a = scanner.nextInt();
 				}while (a ==1);
-				Teacher.setClasses();
+				uiTeacher.setClasses();
 				break;
 			default:
-				Teacher.setClasses();
+				uiTeacher.setClasses();
 				break;
 			}
 			
@@ -368,7 +368,7 @@ public class Teacher {
 			case 1:
 				do {
 				classes.getStudentsSimple();
-				System.out.println("Please choose the student you want to Remove:");
+				System.out.println("Please choose the uiStudent you want to Remove:");
 				a = scanner.nextInt();
 				classes.getStudents().remove(a-1);
 				//database  �ڸ�classes��ɾ����ѧ��
@@ -376,7 +376,7 @@ public class Teacher {
 				System.out.println("Successful.Continue?  1. Yes  2.No");
 				a=scanner.nextInt();
 				}while(a==1);
-				Teacher.setClasses();
+				uiTeacher.setClasses();
 				break;
 			case 2:
 				do {
@@ -398,15 +398,15 @@ public class Teacher {
 					System.out.println("Continue? 1.Yes 2.No");
 					a = scanner.nextInt();
 				}while (a ==1);
-				Teacher.setClasses();
+				uiTeacher.setClasses();
 				break;
 			default:
-				Teacher.setClasses();
+				uiTeacher.setClasses();
 				break;
 			}break;
 		
 		default:
-			Teacher.checkClass();
+			uiTeacher.checkClass();
 		break;
     	}
 	}
@@ -414,23 +414,23 @@ public class Teacher {
     public static void deleteClass() {
     	int a;
     	do {
-    		a = Login.user1.getClasses().size();
+    		a = uiLogin.user1.getClasses().size();
     		for (int i=0;i<a;i++) {
     			System.out.println("["+(i+1)+"]");
-    			Login.user1.getClasses().get(i).toString();	
+    			uiLogin.user1.getClasses().get(i).toString();
     		}
     		System.out.println("Please input Class you want to remove:");
     		a = scanner.nextInt();
-    		Classes classes = Login.user1.getClasses().get(a-1);
+    		Classes classes = uiLogin.user1.getClasses().get(a-1);
     		classes.toString();
 			System.out.println("Do you want to remove this Class? 1.Yes 2.No");
 			a = scanner.nextInt();
-			Login.user1.getClasses().remove(Login.user1.getClasses().get(a-1));
+			uiLogin.user1.getClasses().remove(uiLogin.user1.getClasses().get(a-1));
 			//database ���к���classes��Account ɾ����classes
 			System.out.println("Successful.Continue?  1. Yes  2.No");
 			a=scanner.nextInt();
 			}while(a==1);
-			Teacher.setClasses();
+			uiTeacher.setClasses();
 	}
     
     public static void setOfficeHour() {
@@ -455,7 +455,7 @@ public class Teacher {
 		System.out.println("Please add teachers to the Class:");
 		int a ;
 		do  {
-			System.out.println("Please enter ID of the Teacher");
+			System.out.println("Please enter ID of the uiTeacher");
 			a =scanner.nextInt();
 			Account t1 = getTeacher(a);
 			classes.getTeachers().add(t1);
@@ -490,7 +490,7 @@ public class Teacher {
 			//database  �����ἰ��Account��Ӹ�classes
 			System.out.println("Successful");
 			scanner.nextLine();
-			Administrator.AccountMenu();
+			uiAdministrator.AccountMenu();
 		}else {
 			System.out.println("Canceled");
 			scanner.nextLine();
@@ -521,15 +521,15 @@ public class Teacher {
 		switch (a) {
 		case 2:
 			System.out.println("Please input the chances(2~5)");
-			student.setMonthChance(scanner.nextInt());
+			uiStudent.setMonthChance(scanner.nextInt());
 			break;
         case 1:
         	System.out.println("Please input the time(60min~120min)");
-			student.setTotalTime(scanner.nextInt());
+			uiStudent.setTotalTime(scanner.nextInt());
             break;
         case 3:
         	System.out.println("Please input the time(0~2)");
-			student.setRBC(a);
+			uiStudent.setRBC(a);
 			break;
         case 4:
         	System.out.println("Please choose punishment:");
@@ -539,7 +539,7 @@ public class Teacher {
 			//**********************************ʵ��
 			break;
 		default:
-			Teacher.setTeaching();
+			uiTeacher.setTeaching();
 			break;
 		}
     }
