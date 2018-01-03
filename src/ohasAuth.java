@@ -51,4 +51,15 @@ class ohasAuth {
         }
         return null;
     }
+
+    static int findIdentity(int id) {
+        try {
+            ResultSet rs = sqlCommands.sqlQuery("SELECT pos FROM person WHERE id="+id);
+            if(!rs.next()) return -1;
+            return rs.getInt("pos");
+        } catch (Exception e) {
+            sqlCommands.errorPrint(e);
+            return -1;
+        }
+    }
 }

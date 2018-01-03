@@ -1,19 +1,51 @@
+import com.sun.org.apache.regexp.internal.RE;
+
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
 public class dbClass {
-    private String id;
-    private List<Integer> students = new ArrayList<Integer>();
-    private List<Integer> teachers = new ArrayList<Integer>();
+    private String name;
+    private int id;
+    private ArrayList<Integer> students = new ArrayList<Integer>();
+    private ArrayList<Integer> teachers = new ArrayList<Integer>();
 
-    dbClass(String id) {
+    dbClass(int id) {
         this.id = id;
+        name = getName();
     }
 
-    public List<Integer> getStudents() {
-        ResultSet rs = sqlCommands.sqlQuery("SELECT * FROM stuClass WHERE classid=" + id +
+    dbClass(String name) {
+        this.name = name;
+        id = getID();
+    }
+
+    public int getID() {
+        ResultSet rs = sqlCommands.sqlQuery("SELECT * FROM sumClass WHERE classname=" + name);
+        try {
+            rs.next();
+            return rs.getInt("#");
+        } catch (Exception e) {
+            sqlCommands.errorPrint(e);
+            return 0;
+        }
+    }
+
+    public String getName() {
+        ResultSet rs = sqlCommands.sqlQuery("SELECT * FROM sumClass WHERE #=" + id);
+        try {
+            rs.next();
+            return rs.getString("classname");
+        } catch (Exception e) {
+            sqlCommands.errorPrint(e);
+            return "error";
+        }
+    }
+
+    public ArrayList<Integer> getStudents() {
+        students = null;
+        ResultSet rs = sqlCommands.sqlQuery("SELECT * FROM stuClass WHERE #=" + id +
                 " ORDER BY `stuClass`.`studentid` ASC");
         try {
             while (rs.next()) {
@@ -25,8 +57,9 @@ public class dbClass {
         return students;
     }
 
-    public List<Integer> getTeachers() {
-        ResultSet rs = sqlCommands.sqlQuery("SELECT * FROM sumClass WHERE classid=" + id +
+    public ArrayList<Integer> getTeachers() {
+        teachers = null;
+        ResultSet rs = sqlCommands.sqlQuery("SELECT * FROM sumClass WHERE #=" + id +
                 " ORDER BY `sumClass`.`teacherid` ASC");
         try {
             while (rs.next()) {
@@ -49,6 +82,10 @@ public class dbClass {
 
     public int addStudent(int id) {
         return sqlCommands.sqlUpdate("INSERT INTO stuClass(studentid,classid) VALUES (" + id + "," + this.id + ")");
+    }
+
+    public boolean exist() {
+        return !(name.equals("error")||id==0);
     }
 
     public void delete() {

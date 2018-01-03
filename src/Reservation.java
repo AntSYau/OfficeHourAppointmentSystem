@@ -120,10 +120,10 @@ public class Reservation {
 		System.out.println("Reservation Number:"+ this.getDate());
 		System.out.println("Class Name:"+ this.getClasses());
 		System.out.print("Date:"+ this.getDate());
-		System.out.println("    Time:"+ this.getTime());
+		System.out.println("\tTime:"+ this.getTime());
 		System.out.println("Address:"+ this.getAddress());
 		System.out.print("Teacher:"+ this.getTeacher());
-		System.out.println("    Student:"+ this.getStudent());
+		System.out.println("\tStudent:"+ this.getStudent());
 		System.out.println("Student ID:"+ this.getStudentId());
 		return null;
 	}
