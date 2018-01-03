@@ -1,52 +1,26 @@
-import com.sun.org.apache.regexp.internal.RE;
+//author: qiu shi, zou kehan
 
-import java.sql.Date;
 import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.List;
 
 public class dbClass {
     private String name;
-    private int id;
-    private ArrayList<Integer> students = new ArrayList<Integer>();
-    private ArrayList<Integer> teachers = new ArrayList<Integer>();
-
-    dbClass(int id) {
-        this.id = id;
-        name = getName();
-    }
 
     dbClass(String name) {
         this.name = name;
-        id = getID();
-    }
-
-    public int getID() {
-        ResultSet rs = sqlCommands.sqlQuery("SELECT * FROM sumClass WHERE classname=" + name);
-        try {
-            rs.next();
-            return rs.getInt("#");
-        } catch (Exception e) {
-            sqlCommands.errorPrint(e);
-            return 0;
-        }
     }
 
     public String getName() {
-        ResultSet rs = sqlCommands.sqlQuery("SELECT * FROM sumClass WHERE #=" + id);
-        try {
-            rs.next();
-            return rs.getString("classname");
-        } catch (Exception e) {
-            sqlCommands.errorPrint(e);
-            return "error";
-        }
+        return name;
     }
 
     public ArrayList<Integer> getStudents() {
-        students = null;
-        ResultSet rs = sqlCommands.sqlQuery("SELECT * FROM stuClass WHERE #=" + id +
-                " ORDER BY `stuClass`.`studentid` ASC");
+        ArrayList<Integer> students = new ArrayList<Integer>();
+        ResultSet rs = sqlCommands.sqlQuery("SELECT * FROM stuClass WHERE `name`='" + name +
+                "' ORDER BY `stuClass`.`studentid` ASC");
         try {
             while (rs.next()) {
                 students.add(rs.getInt("studentid"));
@@ -58,9 +32,9 @@ public class dbClass {
     }
 
     public ArrayList<Integer> getTeachers() {
-        teachers = null;
-        ResultSet rs = sqlCommands.sqlQuery("SELECT * FROM sumClass WHERE #=" + id +
-                " ORDER BY `sumClass`.`teacherid` ASC");
+        ArrayList<Integer> teachers = new ArrayList<Integer>();
+        ResultSet rs = sqlCommands.sqlQuery("SELECT * FROM sumClass WHERE `name`='" + name +
+                "' ORDER BY `sumClass`.`teacherid` ASC");
         try {
             while (rs.next()) {
                 teachers.add(rs.getInt("teacherid"));
@@ -71,24 +45,58 @@ public class dbClass {
         return teachers;
     }
 
-    public int setReservation(int studentid, int teacherid, Date date, int startTime, int endTime) {
+    public int setReservation(int studentid, int teacherid, java.util.Date startTime, java.util.Date endTime, String address) {
+        LocalDate date = startTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalTime start = startTime.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
+        LocalTime end = endTime.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
+        dbTeacher teacher = new dbTeacher(teacherid);
+        if (teacher.isOccupied(date, start, end) == 0) {
+            sqlCommands.sqlUpdate("INSERT INTO `appointments`(teacherID,studentID,date,timeStart,timeEnd,address,className) VALUES (" +
+                    teacherid + "," + studentid + ",'" + date.toString() + "','" + start.toString() + "','" + end.toString() + "','" + address + "','" + name + "')");
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    public int setReservation(int studentid, int teacherid, LocalDate date, LocalTime startTime, LocalTime endTime, String address) {
+        System.out.println();
         dbTeacher teacher = new dbTeacher(teacherid);
         if (teacher.isOccupied(date, startTime, endTime) == 0) {
-            sqlCommands.sqlUpdate("INSERT INTO `appointments`(teacherID,studentID,date,timeStart,timeEnd) VALUES (" +
-                    teacherid + "," + studentid + ",\"" + date.toString() + "\"," + startTime + "," + endTime + ")");
+            sqlCommands.sqlUpdate("INSERT INTO `appointments`(teacherID,studentID,date,timeStart,timeEnd,address,className) VALUES (" +
+                    teacherid + "," + studentid + ",\"" + date.toString() + "\",'" + startTime.toString() +
+                    "','" + endTime.toString() + "','" + address + "','" + name + "')");
         }
         return 0;
     }
 
     public int addStudent(int id) {
-        return sqlCommands.sqlUpdate("INSERT INTO stuClass(studentid,classid) VALUES (" + id + "," + this.id + ")");
+        return sqlCommands.sqlUpdate("INSERT INTO stuClass(studentid,name) VALUES (" + id + ",'" + name + "')");
+    }
+
+    public int addTeacher(int id) {
+        return sqlCommands.sqlUpdate("INSERT INTO sumClass(teacherid,name) VALUES (" + id + ",'" + name + "')");
+    }
+
+    public int delTeacher(int id) {
+        return sqlCommands.sqlUpdate("DELETE FROM sumClass WHERE teacherid=" + id + " AND name='" + name + "'");
+    }
+
+    public int delStudent(int id) {
+        return sqlCommands.sqlUpdate("DELETE FROM stuClass WHERE studentid=" + id + " AND name='" + name + "'");
     }
 
     public boolean exist() {
-        return !(name.equals("error")||id==0);
+        return !(name.equals("error"));
     }
 
     public void delete() {
         return;
+    }
+
+    public void setName(String name ) {
+        sqlCommands.sqlUpdate("UPDATE stuClass VALUES `name`='"+name+"' WHERE `name`='"+this.name+"'");
+        sqlCommands.sqlUpdate("UPDATE sumClass VALUES `name`='"+name+"' WHERE `name`='"+this.name+"'");
+        sqlCommands.sqlUpdate("UPDATE appointments VALUES `className`='"+name+"' WHERE `className`='"+this.name+"'");
     }
 }

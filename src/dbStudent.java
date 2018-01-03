@@ -1,11 +1,9 @@
-import com.sun.org.apache.regexp.internal.RE;
+//author: qiu shi, zou kehan
 
-import javax.swing.tree.ExpandVetoException;
 import java.sql.ResultSet;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class dbStudent {
     private int id = 0;
@@ -22,10 +20,8 @@ public class dbStudent {
             rs.next();
             return rs.getString(3);
         } catch (java.lang.NullPointerException e) {
-            System.out.println("We cannot identify this uiStudent by Student ID.");
             return "error";
         } catch (Exception e) {
-            sqlCommands.errorPrint(e);
             return "error";
         }
     }
@@ -71,10 +67,10 @@ public class dbStudent {
     int getRuleBreakTime() {
         Calendar calendar = Calendar.getInstance();
         ResultSet rs = sqlCommands.sqlQuery("SELECT * FROM appointments WHERE studentID=" + id + " AND year(`date`)=" +
-                calendar.get(Calendar.YEAR) + " AND month(`date`)=" + calendar.get(Calendar.MONTH)+" AND absent=1");
-        int count=1;
+                calendar.get(Calendar.YEAR) + " AND month(`date`)=" + calendar.get(Calendar.MONTH) + " AND absent=1");
+        int count = 1;
         try {
-            while(rs.next()) {
+            while (rs.next()) {
                 count++;
             }
         } catch (Exception e) {
@@ -83,15 +79,19 @@ public class dbStudent {
         return count;
     }
 
-    public List<String> appQuery() { //TODO:筛选
+    public ArrayList[] appQuery() {
         ResultSet rs = sqlCommands.sqlQuery("SELECT * FROM appointments WHERE studentID=" + id +
-                " SORT BY `appointments`.`date` ASC, `appointments`.`timeStart` ASC");
-        List<String> query = new ArrayList<String>();
+                " ORDER BY `appointments`.`date` ASC, `appointments`.`timeStart` ASC");
+        ArrayList[] query = new ArrayList[2];
+        query[0] = new ArrayList<Integer>();
+        query[1] = new ArrayList<String>();
         try {
             while (rs.next()) {
-                query.add(rs.getDate("date") + "\t" + rs.getInt("timeStart") + "\t" +
-                        rs.getInt("timeEnd") + "\t" +
+                query[0].add(rs.getInt("#"));
+                query[1].add(rs.getDate("date") + "\t" + rs.getTime("timeStart").toString() + "\t" +
+                        rs.getTime("timeEnd").toString() + "\t" +
                         (new dbTeacher(rs.getInt("teacherID")).getName()));
+                System.out.print(".");
             }
         } catch (Exception e) {
             sqlCommands.errorPrint(e);
@@ -105,10 +105,10 @@ public class dbStudent {
 
     public ArrayList<dbClass> getClasses() {
         ArrayList<dbClass> ls = new ArrayList<dbClass>();
-        ResultSet rs = sqlCommands.sqlQuery("SELECT classid FROM stuClass WHERE studentid=" + this.id);
+        ResultSet rs = sqlCommands.sqlQuery("SELECT name FROM stuClass WHERE studentid=" + this.id);
         try {
             while (rs.next()) {
-                ls.add(new dbClass(rs.getString("classname")));
+                ls.add(new dbClass(rs.getString("name")));
             }
         } catch (Exception e) {
             sqlCommands.errorPrint(e);
@@ -116,7 +116,23 @@ public class dbStudent {
         return ls;
     }
 
+    public int getID() {
+        return id;
+    }
+
+    public static void delAppointment(int id) {
+        sqlCommands.sqlUpdate("DELETE FROM appointments WHERE `#`=" + id);
+    }
+
     boolean exist() {
         return !(name.equals("error"));
+    }
+
+    void setName(String name) {
+        sqlCommands.sqlUpdate("UPDATE person SET `name`='" + name + "' WHERE id=" + this.id);
+    }
+
+    void setPassword(String password) {
+        sqlCommands.sqlUpdate("UPDATE person SET `passwd`='" + password + "' WHERE id=" + this.id);
     }
 }

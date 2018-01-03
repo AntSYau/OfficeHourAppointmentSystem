@@ -1,4 +1,7 @@
+//author: qiu shi
+
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 class ohasAuth {
     static int signUp(int id, int pos, String name, String password) {
@@ -29,12 +32,12 @@ class ohasAuth {
             if (rs.next()) {
                 return new dbStudent(id);
             }
-        } catch (java.lang.NullPointerException e) {
+        } catch (java.sql.SQLException e) {
             System.out.println("Your Student ID or password was incorrect. Please check again.");
         } catch (Exception e) {
             sqlCommands.errorPrint(e);
         }
-        return null;
+        return new dbStudent(-1);
     }
 
     static dbTeacher teaSignIn(int id, String password) {
@@ -44,12 +47,35 @@ class ohasAuth {
             if (rs.next()) {
                 return new dbTeacher(id);
             }
-        } catch (java.lang.NullPointerException e) {
+        } catch (java.sql.SQLException e) {
             System.out.println("Your uiTeacher ID or password was incorrect. Please check again.");
         } catch (Exception e) {
             sqlCommands.errorPrint(e);
         }
-        return null;
+        return new dbTeacher(-1);
+    }
+
+    static dbAdmin adminSignIn(int id, String password) {
+        try {
+            ResultSet rs = sqlCommands.sqlQuery("SELECT * FROM person WHERE (pos=0 and id=\""
+                    + id + "\" and passwd=\"" + password + "\")");
+            if (rs.next()) {
+                return new dbAdmin(id);
+            }
+        } catch (java.sql.SQLException e) {
+            System.out.println("Your ID or password was incorrect. Please check again.");
+        } catch (Exception e) {
+            sqlCommands.errorPrint(e);
+        }
+        return new dbAdmin(-1);
+    }
+
+    static void delete(int id) {
+        try{
+            sqlCommands.sqlUpdate("DELETE FROM person WHERE id="+id);
+        } catch (Exception e) {
+            sqlCommands.errorPrint(e);
+        }
     }
 
     static int findIdentity(int id) {
@@ -61,5 +87,28 @@ class ohasAuth {
             sqlCommands.errorPrint(e);
             return -1;
         }
+    }
+
+    static ArrayList[] getAllUsers() {
+        ArrayList[] result = new ArrayList[3];
+        ResultSet rs = sqlCommands.sqlQuery("SELECT * FROM person");
+        try{
+            while(rs.next()) {
+                result[0].add(rs.getInt("id"));
+                result[1].add(rs.getString("name"));
+                int pos = rs.getInt("pos");
+                switch(pos) {
+                    case 0:
+                        result[2].add("Administrator");
+                    case 1:
+                        result[2].add("Teacher");
+                    case 2:
+                        result[2].add("Student");
+                }
+            }
+        } catch ( Exception e) {
+            sqlCommands.errorPrint(e);
+        }
+        return result;
     }
 }

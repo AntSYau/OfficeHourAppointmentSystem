@@ -1,14 +1,11 @@
+//author: qiu shi
+
 import java.sql.ResultSet;
 
 public class ohasRules {
-    private int s_RuleBreakChance = 0;
-    private int s_MonthlyTime = 0;
-    private int s_MonthlyChance = 0;
-    private int a_AppTimeRange = 0;
-
     public static int setRuleBreakChance(int rule) {
         try {
-            sqlCommands.sqlUpdate("UPDATE `ohasRules` VALUES `value`=" + rule + " WHERE `Name`='s_RuleBreakChance'");
+            sqlCommands.sqlUpdate("UPDATE `ohasRules` SET `value`=" + rule + " WHERE `Name`='s_RuleBreakChance'");
         } catch (Exception e) {
             sqlCommands.errorPrint(e);
             return -1;
@@ -18,7 +15,7 @@ public class ohasRules {
 
     public static int setMonthlyTime(int rule) {
         try {
-            sqlCommands.sqlUpdate("UPDATE `ohasRules` VALUES `value`=" + rule + " WHERE `Name`='s_MonthlyTime'");
+            sqlCommands.sqlUpdate("UPDATE `ohasRules` SET `value`=" + rule + " WHERE `Name`='s_MonthlyTime'");
         } catch (Exception e) {
             sqlCommands.errorPrint(e);
             return -1;
@@ -28,7 +25,7 @@ public class ohasRules {
 
     public static int setMonthlyChance(int rule) {
         try {
-            sqlCommands.sqlUpdate("UPDATE `ohasRules` VALUES `value`=" + rule + " WHERE `Name`='s_MonthlyChance'");
+            sqlCommands.sqlUpdate("UPDATE `ohasRules` SET `value`=" + rule + " WHERE `Name`='s_MonthlyChance'");
         } catch (Exception e) {
             sqlCommands.errorPrint(e);
             return -1;
@@ -38,7 +35,7 @@ public class ohasRules {
 
     public static int setAppTimeRange(int rule) {
         try {
-            sqlCommands.sqlUpdate("UPDATE `ohasRules` VALUES `value`=" + rule + " WHERE `Name`='a_AppTimeRange'");
+            sqlCommands.sqlUpdate("UPDATE  `ohasRules` SET `value`=" + rule + " WHERE `Name`='a_AppTimeRange'");
         } catch (Exception e) {
             sqlCommands.errorPrint(e);
             return -1;
@@ -74,5 +71,20 @@ public class ohasRules {
             sqlCommands.errorPrint(e);
             return -1;
         }
+    }
+
+    public static int setTryChances(int rule) {
+        try {
+            sqlCommands.sqlUpdate("UPDATE `ohasRules` SET `value`=" + rule + " WHERE `Name`='a_TryChances'");
+        } catch (Exception e) {
+            sqlCommands.errorPrint(e);
+            return -1;
+        }
+        return 0;
+    }
+
+    public static int getTryChances() {
+        ResultSet rs = sqlCommands.sqlQuery("SELECT * FROM `ohasRules` WHERE `Name`='a_TryChances'");
+        return getBody(rs);
     }
 }

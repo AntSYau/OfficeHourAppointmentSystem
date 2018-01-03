@@ -1,3 +1,6 @@
+//author: zou kehan
+
+import java.awt.*;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -6,11 +9,7 @@ public class uiLogin {
     public static int EnteredID;
     public static String EnteredPassword;
     public static int[] DataBaseAccount = new int[100];//temp,database模拟
-    private static boolean AccountExist;
-    private static int tempId;
-    private static String tempPassword = "a";
     private static Identity tempIdentity = Identity.STUDENT;
-    static Account user1;
 
     enum Identity {
         ADMINISTRATOR(0), TEACHER(1), STUDENT(2);
@@ -34,107 +33,56 @@ public class uiLogin {
         }
     }
 
-    private static boolean LoginTrue = false;
-    private static int tryChances = 5;
-    private static int tries = 5;
     public static Scanner sc = new Scanner(System.in);
 
-    public static int getTryChances() {
-        return uiLogin.tryChances;
-    }
-
-    public static void setTryChances() {
-        if (Account.getIdentity() == Identity.ADMINISTRATOR) {//管理员权限******************************************
-            System.out.println("Please Enter The Number of Acceptable Attemps:");
-            uiLogin.tryChances = sc.nextInt();
-        }
-    }
-
-    public int getTempId() {
-        return uiLogin.tempId;
-    }
-
-    public static String getTempPassword() {
-        return uiLogin.tempPassword;
-    }
-
-    public boolean getLogninTrue() {
-        return uiLogin.LoginTrue;
-    }
-
-    public boolean getAccountExist() {
-        return uiLogin.AccountExist;
-    }
-
-    public static void setLoginTrue(boolean a) {
-        uiLogin.LoginTrue = a;
-    }
-
-    public static void setAccountExist(boolean a) {
-        uiLogin.AccountExist = a;
-    }
-
-    public static void searchForAccount() {
-        for (int i = 0;/*遍历数据库account栏目*/ ; ) {
-            if (EnteredID == DataBaseAccount[i]) {
-                uiLogin.setAccountExist(true);
-                user1 = new Account("get name", tempPassword, EnteredID, tempIdentity);//getName
-                tempPassword = Account.getPassword();
-                tempIdentity = Account.getIdentity();
-                break;
-            }
-        }
-        if (AccountExist != true) {
-            System.out.println("***Your Input Account Doesn't Exist. Please Enter a Valid Account.***");
-        }
-    }
-
-    public static void checkPassword() {
-        if (EnteredPassword == tempPassword) {
-            uiLogin.setLoginTrue(true);
-            System.out.println("uiLogin Succeeded. Welcome," + EnteredID);
-            switch (Account.getIdentity()) {
-                case STUDENT:
-                    uiStudent.MainMenu();
-                    break;
-                case TEACHER:
-                    uiTeacher.MainMenu();
-                    break;
-                case ADMINISTRATOR:
-                    uiAdministrator.MainMenu();
-                    break;
-            }
-        } else {
-            System.out.println("Wrong Password. Please Try Again. " + tryChances + " attemps left.");
-            tryChances--;
-        }
-    }
-
     public static void LoginMain() {
-        uiLogin login1 = new uiLogin();
-        uiLogin.tries = uiLogin.tryChances;
-        System.out.println("Welcome to use SUSTech Office Hour Appointment System. ");
-        while (uiLogin.tries > 0) {
-            System.out.println("ID: ");
-            EnteredID = sc.nextInt();
-            System.out.println("Password: ");
-            EnteredPassword=sc.next();
-            switch(ohasAuth.findIdentity(EnteredID)) {
-                case -1:
-                    System.out.println("Network error. Please try again.");
-                case 1:
-
+        while (true) {
+            int c = ohasRules.getTryChances();
+            System.out.println("Welcome to use SUSTech Office Hour Appointment System. ");
+            Label1:
+            for (int attempt = 1; attempt <= c; attempt++) {
+                System.out.print("ID: ");
+                EnteredID = sc.nextInt();
+                System.out.print("Password: ");
+                EnteredPassword = sc.next();
+                switch (ohasAuth.findIdentity(EnteredID)) {
+                    case -1:
+                        System.out.println("ID and password mismatch. Chances left: " + (c - attempt));
+                        break;
+                    case 2:
+                        dbStudent db1 = ohasAuth.stuSignIn(EnteredID, EnteredPassword);
+                        if (db1.exist()) {
+                            new uiStudent(db1).MainMenu();
+                            break Label1;
+                        }
+                        System.out.println("ID and password mismatch. Chances left: " + (c - attempt));
+                        break;
+                    case 1:
+                        dbTeacher db2 = ohasAuth.teaSignIn(EnteredID, EnteredPassword);
+                        if (db2.exist()) {
+                            new uiTeacher(db2).MainMenu();
+                            break Label1;
+                        }
+                        System.out.println("ID and password mismatch. Chances left: " + (c - attempt));
+                        break;
+                    case 0:
+                        dbAdmin db3 = ohasAuth.adminSignIn(EnteredID, EnteredPassword);
+                        if (db3.exist()) {
+                            new uiAdministrator(db3).MainMenu();
+                            break Label1;
+                        }
+                        System.out.println("ID and password mismatch. Chances left: " + (c - attempt));
+                        break;
+                }
+                if (attempt == c) {
+                    System.out.println("Sorry, you are out of attempts. System will now shut down.");
+                }
             }
-
-        }
-        if (uiLogin.tries == 0) {
-            System.out.println("Sorry, you are out of attempts. Try 10 minutes later.");//timer  时间设置
-            login1.timeControl();
         }
     }
 
-    public void timeControl() {
-        Timer timer = new Timer();
+    //TODO public static void timeControl() {
+        /*Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
                 int time = 600;
@@ -144,18 +92,6 @@ public class uiLogin {
                 }
             }
         }, 0, 1000);
-    }
-
-    public Account getUser1() {
-        return user1;
-    }
-
-    public void setUser1(Account user1) {
-        uiLogin.user1 = user1;
-    }
-
-    public void setTempPassword() {
-        tempPassword = tempPassword;
-    }
+    }*/
 
 }
