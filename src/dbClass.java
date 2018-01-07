@@ -1,4 +1,4 @@
-//author: qiu shi, zou kehan
+//author: qiu shi
 
 import java.sql.ResultSet;
 import java.time.LocalDate;

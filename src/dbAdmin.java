@@ -1,4 +1,4 @@
-//author: qiu shi, zou kehan
+//author: qiu shi
 
 public class dbAdmin {
     private int id;
