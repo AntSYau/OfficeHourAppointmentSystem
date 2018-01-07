@@ -16,13 +16,13 @@ public class uiStudent {
     public Scanner scanner = new Scanner(System.in);
 
     public void setUsername() {
-        System.out.println("Your current name:" + operation.getName());
+        System.out.println("Your current name:" + ohasAuth.getName(operation.getID()));
         System.out.println("Do you want to change it? 1/Yes 0/No");
         int a = scanner.nextInt();
         if (a == 1) {
             System.out.println("Please enter your new account name:");
             String str = scanner.next();
-            operation.setName(str);
+            ohasAuth.setName(operation.getID(), str);
             System.out.println("Success.");
         }
     }
@@ -43,7 +43,7 @@ public class uiStudent {
 
     public void PersonalInfo() {
         System.out.println("Your personal account Infomstion");
-        System.out.println("Username:" + operation.getName());
+        System.out.println("Username:" + ohasAuth.getName(operation.getID()));
         System.out.println("ID      :" + operation.getID());
         System.out.println("What to do next? ");
         System.out.println("1. Change Username");
@@ -192,7 +192,7 @@ public class uiStudent {
     public void MainMenu() {
         int key = 0;
         while (key == 0) {
-            System.out.println("Hello, " + operation.getName() + ". What service would you like to apply?");
+            System.out.println("Hello, " + ohasAuth.getName(operation.getID()) + ". What service would you like to apply?");
             System.out.println("1. Personal Information");
             System.out.println("2. Reservation");
             System.out.println("0. Exit");

@@ -111,4 +111,24 @@ class ohasAuth {
         }
         return result;
     }
+
+    static String getName(int id) {
+        ResultSet rs = sqlCommands.sqlQuery("SELECT * FROM person WHERE id=" + id);
+        try {
+            rs.next();
+            return rs.getString(3);
+        } catch (java.lang.NullPointerException e) {
+            return "error";
+        } catch (Exception e) {
+            return "error";
+        }
+    }
+
+    static void setName(int id, String name) {
+        sqlCommands.sqlUpdate("UPDATE `person` SET name='" + name + "' WHERE id=" + id);
+    }
+
+    static void setPassword(int id, String password) {
+        sqlCommands.sqlUpdate("UPDATE person SET `passwd`='" + password + "' WHERE id=" + id);
+    }
 }

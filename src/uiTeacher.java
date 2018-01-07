@@ -17,7 +17,7 @@ public class uiTeacher {
     public int MainMenu() {
         int key = 0;
         while (key == 0) {
-            System.out.println("Hello, " + operation.getName() + ". What service would you like to apply?");
+            System.out.println("Hello, " + ohasAuth.getName(operation.getID()) + ". What service would you like to apply?");
             System.out.println("1. Personal Information");
             System.out.println("2. Reservation");
             System.out.println("3. Set Reservation Rules");
@@ -86,14 +86,14 @@ public class uiTeacher {
     //*************************����*********************************
 
     public void setUsername() {
-        System.out.println("Your current name:" + operation.getName());
+        System.out.println("Your current name:" + ohasAuth.getName(operation.getID()));
         System.out.println("Do you want to change it? 1/Yes 0/No");
         System.out.print("> ");
         int a = scanner.nextInt();
         if (a == 1) {
             System.out.print("Please enter your new account name: ");
             String str = uiLogin.sc.nextLine();
-            operation.setName(str);
+            ohasAuth.setName(operation.getID(), str);
         }
     }
 
@@ -103,7 +103,7 @@ public class uiTeacher {
         System.out.print("Enter your new password: ");
         String str = scanner.next();
         if (ohasAuth.teaSignIn(operation.getID(), password).exist()) {
-            operation.setPassword(str);
+            ohasAuth.setPassword(operation.getID(), str);
         } else {
             System.out.println("Wrong password. Operation is cancelled.");
         }
@@ -112,7 +112,7 @@ public class uiTeacher {
 
     public void PersonalInfo() {
         System.out.println("Your personal account info:");
-        System.out.println("Username: " + operation.getName());
+        System.out.println("Username: " + ohasAuth.getName(operation.getID()));
         System.out.println("   ID   : " + operation.getID());
         while (true) {
             System.out.println("What to do next? ");
@@ -203,7 +203,7 @@ public class uiTeacher {
                 System.out.println("1. Date: " + date.toString());
                 System.out.println("2. Time: " + start.toString() + " - " + end.toString());
                 System.out.println("3. Address: " + address);
-                System.out.println("4. Teacher: " + new dbTeacher(teacherid).getName());
+                System.out.println("4. Teacher: " + ohasAuth.getName(teacherid));
                 System.out.println("5. Absence: " + (absence == 1));
                 System.out.println("6. Save and exit");
                 System.out.println("0. Discard and exit");
@@ -232,13 +232,13 @@ public class uiTeacher {
                         System.out.println("Please input the id of the teacher you want to switch to");
                         ArrayList<Integer> teachers = new dbClass(classname).getTeachers();
                         for (int i = 1; i <= teachers.size(); i++) {
-                            System.out.println(i + ". " + (new dbTeacher(teachers.get(i - 1)).getName()));
+                            System.out.println(i + ". " + (ohasAuth.getName(teachers.get(i - 1))));
                         }
                         a = scanner.nextInt();
                         teacherid = teachers.get(a - 1);
                         break;
                     case 5:
-                        System.out.println(new dbStudent(studentid).getName() + " is 0. presence 1. absence");
+                        System.out.println(ohasAuth.getName(studentid) + " is 0. presence 1. absence");
                         a = scanner.nextInt();
                         if (a == 0) {
                             absence = 0;
@@ -349,7 +349,7 @@ public class uiTeacher {
                     case 1:
                         ArrayList<Integer> teachers = cls.getTeachers();
                         for (int i = 1; i <= teachers.size(); i++) {
-                            System.out.println(i + ". " + (new dbTeacher(teachers.get(i - 1)).getName()));
+                            System.out.println(i + ". " + (ohasAuth.getName(teachers.get(i - 1))));
                         }
                         System.out.println("Please choose the teacher you want to Remove:");
                         int a = scanner.nextInt();
@@ -362,7 +362,7 @@ public class uiTeacher {
                         if (!new dbTeacher(a).exist()) {
                             System.out.println("ID is incorrect.");
                         }
-                        System.out.println("Name: " + new dbTeacher(a).getName());
+                        System.out.println("Name: " + ohasAuth.getName(a));
                         System.out.println("ID: " + new dbTeacher(a).getID());
                         System.out.println("Confirm to add?  1.Yes  2.No");
                         System.out.print("> ");
@@ -390,14 +390,14 @@ public class uiTeacher {
                     case 1:
                         ArrayList<Integer> students = cls.getStudents();
                         for (int i = 1; i <= students.size(); i++) {
-                            System.out.println(i + ". " + (new dbTeacher(students.get(i - 1)).getName()));
+                            System.out.println(i + ". " + (ohasAuth.getName(students.get(i - 1))));
                         }
                         System.out.println("Please choose the Student you want to Remove:");
                         System.out.print("> ");
                         int a = scanner.nextInt();
                         if (a > 0 && a <= students.size()) {
                             cls.delStudent(students.get(a - 1));
-                            System.out.println(new dbStudent(students.get(a - 1)).getName() + " is kicked out from your class.");
+                            System.out.println(ohasAuth.getName(students.get(a - 1)) + " is kicked out from your class.");
                         }
                         return;
                     case 2:
@@ -406,7 +406,7 @@ public class uiTeacher {
                         if (!new dbStudent(a).exist()) {
                             System.out.println("ID is incorrect.");
                         }
-                        System.out.println("Name: " + new dbStudent(a).getName());
+                        System.out.println("Name: " + ohasAuth.getName(a));
                         System.out.println("ID: " + new dbStudent(a).getID());
                         System.out.println("Confirm to add?  1.Yes  2.No");
                         System.out.print("> ");
@@ -459,8 +459,8 @@ public class uiTeacher {
                 System.out.println("ID is incorrect.");
                 continue;
             }
-            System.out.println("Name: " + new dbTeacher(a).getName());
-            System.out.println(" ID : " + new dbTeacher(a).getID());
+            System.out.println("Name: " + ohasAuth.getName(a));
+            System.out.println(" ID : " + a);
             new dbClass(name).addTeacher(a);
             System.out.println("Continue to add teachers? 1/Yes 0/No");
             System.out.print("> ");
@@ -473,8 +473,8 @@ public class uiTeacher {
             if (!new dbStudent(a).exist()) {
                 System.out.println("ID is incorrect.");
             }
-            System.out.println("Name: " + new dbStudent(a).getName());
-            System.out.println(" ID : " + new dbStudent(a).getID());
+            System.out.println("Name: " + ohasAuth.getName(a));
+            System.out.println(" ID : " + a);
             new dbClass(name).addStudent(a);
             System.out.println("Continue to add students? 1/Yes 0/No");
             System.out.print("> ");
@@ -485,12 +485,12 @@ public class uiTeacher {
         System.out.println(" Teachers : ");
         ArrayList<Integer> teachers = new dbClass(name).getTeachers();
         for (int i = 1; i <= teachers.size(); i++) {
-            System.out.println(i + ". " + (new dbTeacher(teachers.get(i - 1)).getName()));
+            System.out.println(i + ". " + (ohasAuth.getName(teachers.get(i - 1))));
         }
         System.out.println(" Students : ");
         ArrayList<Integer> students = new dbClass(name).getStudents();
         for (int i = 1; i <= students.size(); i++) {
-            System.out.println(i + ". " + (new dbTeacher(students.get(i - 1)).getName()));
+            System.out.println(i + ". " + (ohasAuth.getName(students.get(i - 1))));
         }
         System.out.println("Add class successful.");
     }

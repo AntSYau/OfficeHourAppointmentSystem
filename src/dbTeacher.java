@@ -3,7 +3,8 @@
 import java.sql.ResultSet;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 
@@ -15,7 +16,7 @@ public class dbTeacher {
 
     dbTeacher(int id) {
         this.id = id;
-        name = getName();
+        name = ohasAuth.getName(id);
     }
 
     ArrayList[] getAppointments(LocalDate start, LocalDate end) {
@@ -199,18 +200,6 @@ public class dbTeacher {
         return sqlCommands.sqlUpdate("DELETE FROM officehour WHERE (day=" + day + " and timeStart=" + timeStart + ")");
     }
 
-    String getName() {
-        ResultSet rs = sqlCommands.sqlQuery("SELECT * FROM person WHERE id=" + id);
-        try {
-            rs.next();
-            return rs.getString("name");
-        } catch (java.lang.NullPointerException e) {
-            return "error";
-        } catch (Exception e) {
-            return "error";
-        }
-    }
-
     public int getID() {
         return id;
     }
@@ -262,13 +251,5 @@ public class dbTeacher {
             sqlCommands.errorPrint(e);
         }
         return result;
-    }
-
-    void setName(String name) {
-        sqlCommands.sqlUpdate("UPDATE person SET `name`='" + name + "' WHERE id=" + this.id);
-    }
-
-    void setPassword(String password) {
-        sqlCommands.sqlUpdate("UPDATE person SET `passwd`='" + password + "' WHERE id=" + this.id);
     }
 }

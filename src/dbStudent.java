@@ -11,19 +11,7 @@ public class dbStudent {
 
     dbStudent(int id) {
         this.id = id;
-        name = getName();
-    }
-
-    String getName() {
-        ResultSet rs = sqlCommands.sqlQuery("SELECT * FROM person WHERE id=" + id);
-        try {
-            rs.next();
-            return rs.getString(3);
-        } catch (java.lang.NullPointerException e) {
-            return "error";
-        } catch (Exception e) {
-            return "error";
-        }
+        name = ohasAuth.getName(id);
     }
 
     public String toString() {
@@ -90,7 +78,7 @@ public class dbStudent {
                 query[0].add(rs.getInt("#"));
                 query[1].add(rs.getDate("date") + "\t" + rs.getTime("timeStart").toString() + "\t" +
                         rs.getTime("timeEnd").toString() + "\t" +
-                        (new dbTeacher(rs.getInt("teacherID")).getName()));
+                        (ohasAuth.getName(rs.getInt("teacherID"))));
                 System.out.print(".");
             }
         } catch (Exception e) {
@@ -126,10 +114,6 @@ public class dbStudent {
 
     boolean exist() {
         return !(name.equals("error"));
-    }
-
-    void setName(String name) {
-        sqlCommands.sqlUpdate("UPDATE person SET `name`='" + name + "' WHERE id=" + this.id);
     }
 
     void setPassword(String password) {
